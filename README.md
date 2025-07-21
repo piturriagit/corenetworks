@@ -1,0 +1,2 @@
+# corenetworks
+Caso práctico 
