@@ -2,7 +2,6 @@ package com.piturria.TasksWebApp.service;
 
 import com.piturria.TasksWebApp.model.MyTask;
 import com.piturria.TasksWebApp.repository.MyTaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
