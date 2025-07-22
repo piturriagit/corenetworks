@@ -1,5 +1,6 @@
 # Ignore environment and secret files
 *.env
 
-# Ignore temporal folder
-temporal/
+# Ignore temporal and tool folders
+/temporal/
+/.idea/
