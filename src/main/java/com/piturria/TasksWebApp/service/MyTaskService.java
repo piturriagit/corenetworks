@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class MyTaskService {
@@ -35,13 +36,15 @@ public class MyTaskService {
 
     public MyTask updateTask(int id, MyTask updatedTask) {
         MyTask task = getTaskById(id);
+        if(task==null)
+            return task;
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
         task.setCreationDate(updatedTask.getCreationDate());
         return task;
     }
 
-    public boolean deleteTaskById(int id) {
+    public Boolean deleteTaskById(int id) {
         for (int i = 0 ; i < fakeTasks.size() ; i++)
             if (fakeTasks.get(i).getId() == id) {
                 fakeTasks.remove(i);
