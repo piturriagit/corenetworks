@@ -1,2 +1,5 @@
-/LINKS.md
-/src/main/resources/testing_environment.env
+# Ignore environment and secret files
+.env
+
+# Ignore temporal folder
+temporal/
