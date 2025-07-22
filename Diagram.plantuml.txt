@@ -1,0 +1,65 @@
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x.
+!define column(x) <color:#efefef><&media-record></color> x.
+
+
+class TasksWebAppApplication {
+  + main(String[]): void
+}
+
+package controller <<Rectangle>> {
+  class MyTaskController {
+    - service: MyTaskService
+    + public MyTaskController(MyTaskService)
+    + getAllTasks() : ResponseEntity<List<MyTask>>
+    + getTaskById(int): ResponseEntity<MyTask>
+    + addTask(MyTask) : ResponseEntity<MyTask>
+    + updateTask(int, MyTask): ResponseEntity<MyTask>
+    + deleteTaskById(int) : ResponseEntity<Boolean>
+    + deleteAllTasks(): ResponseEntity<?>
+  }
+}
+
+package service <<Rectangle>> {
+  class MyTaskService {
+    - repository: MyTaskRepository
+    + public MyTaskRepository(MyTaskRepository)
+    + getAllTasks() : List<MyTask>
+    + getTaskById(int): MyTask
+    + addTask(MyTask) : MyTask
+    + updateTask(int, MyTask): MyTask
+    + deleteTaskById(int) : Boolean
+    + deleteAllTasks(): void
+  }
+}
+
+package repository <<Rectangle>> {
+  class MyTaskRepository
+}
+
+package model <<Rectangle>> {
+  class MyTask {
+    - id: int
+    - title: String
+    - description: String
+    - creationDate: LocalDateTime
+  }
+}
+
+package tasksdb <<Database>> {
+  entity tasks {
+    primary_key(id): UUID <<PK>>
+    title: VARCHAR(255) NOT NULL
+    description: VARCHAR(255)
+    creation_date: TIMESTAMP(6)
+  }
+}
+
+
+MyTaskController --> MyTaskService
+MyTaskService --> MyTaskRepository
+MyTaskRepository --> MyTask
+MyTask .. tasks
+
+@enduml
