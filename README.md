@@ -47,10 +47,10 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
 # Implementación
 ## Diagrama del diseño 
 [PlantUML diagram](//www.plantuml.com/plantuml/png/XLJlQzim4Ftkl-B6ODYiQTcWfHZZDVq1IzTs9Kst3sCKnRe4KLaoab8QjlxlavoR4zkOjFrGtNjFUlTErfbrpBXLAQDt71T28LH6bCoidvvn7RycaCtphD1Ic_Jz_FJqv9DVVl1GdXtLrHnUiwDvtgWNsg1OgaPDKbR_zAI7ZSvNLgNQbU0Y_7f9YLomaS526zxIHb4XcRKmO_RP_iJvkAhydnG5Sq8h-1C1V8II2HK_E2FKyjVl98KNBNZq5aKLAvxPCXoidD5Iee4icsBXc5fApFDQljd_TXrEkDWI0mGm0elcHHIO4kDXi_HWEBXQpRsLdZXkSHCYBz6DfQmRYHD8OOgsqihYbNB2hRCROLss4URvLXBMv-i9ZuLoIKz4VA8ppiEIZazW3trLSUOmLCBc1q2oFIgE4XssRFKFEjTQ8bDjpRRx7lzBOBxjpenotpCmYhYPbi5AM-6qMQV4c3QLtinQQDmj38rjPqx3OzhWGsCXUDyO6jPmx9JpGCpq9NIItMRK3nVylcWMhC1UG2tmkc9RXD8uW8d7bsZyJcHe8HJtTePo2t3TJS1r5Rve9jjjM_Q20y5Hk_K6T782r78dZw4eIkqfUwvOSxS4JqC2j7B2IKnXy-fGZQCjZAZxw225GHRAbyoXZq8NJ8P_PwB4hYSNPiVdtfLdi3cpIAQm_bGsE9dQVSS5zqq-FauklVB-6pqXvFB7U7hnTJoDFnyV9t3tVGPtZpStWT2otA85jB7zn6lViydjrSDiV7iVdoJ_RKUzb_FmCEyybgqLuPtBrIt0QFGtRrypI05V7Ifk--pjdeJv2YMLmlNzE3hpkbKf_m40)
-<!-- Update this url by:
-1. update plantuml diagram file: src>main>java>resources>diagram.plantuml
-2. go to https://www.plantuml.com/plantuml/uml/ and test it
-3. get the url and replace it here
+<!-- To update this diagram:
+1. edit [diagram.plantuml](src/main/resources/diagram.plantuml)
+2. chek it here https://www.plantuml.com/plantuml/uml/ 
+3. get the url and replace it
 -->
 
 # Testing
