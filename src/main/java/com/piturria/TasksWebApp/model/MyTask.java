@@ -3,8 +3,8 @@ package com.piturria.TasksWebApp.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
-import org.antlr.v4.runtime.misc.NotNull;
+//import lombok.Generated;
+
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ public class MyTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
+    @Column(nullable = false)
     private String title;
     private String description;
     private LocalDateTime creationDate;
