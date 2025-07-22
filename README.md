@@ -12,10 +12,11 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
    - [ ] Validación básica de formularios.
 2. Backend (Java + Spring Boot): 
    - [ ] API REST que permita:
-       - [ ] Crear una tarea.
-       - [ ] Obtener todas las tareas.
-       - [ ] Actualizar una tarea.
-       - [ ] Eliminar una tarea.
+       - [X] Crear una tarea.
+       - [X] Obtener todas las tareas.
+       - [X] Actualizar una tarea.
+       - [X] Eliminar una tarea.
+       - extra Eliminar todas las tareas
    - [ ] Uso de controladores, servicios y repositorios (DAO).
 3. Base de datos (MySQL):
    - [ ] Base de datos con una tabla tareas:
