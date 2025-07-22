@@ -35,7 +35,14 @@ package service <<Rectangle>> {
 }
 
 package repository <<Rectangle>> {
-  class MyTaskRepository
+  interface MyTaskRepository
+  interface JpaRepository<MyTask, Integer> {
+    + findAll() : List<MyTask>
+    + findById() : optional MyTask
+    + save(MyTask) : MyTask
+    + deleteById(Integer) : void
+    + deleteAll(): void
+  }
 }
 
 package model <<Rectangle>> {
@@ -57,9 +64,9 @@ package tasksdb <<Database>> {
 }
 
 
-MyTaskController --> MyTaskService
-MyTaskService --> MyTaskRepository
-MyTaskRepository --> MyTask
-MyTask .. tasks
-
+MyTaskController ..> MyTaskService
+MyTaskService ..> MyTaskRepository
+MyTaskRepository --|> JpaRepository : extends
+MyTaskRepository ..> MyTask
+MyTask .. tasks : JPA
 @enduml

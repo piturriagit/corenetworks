@@ -49,15 +49,14 @@ public class MyTaskController {
     }
 
     @DeleteMapping("/task")
-    public ResponseEntity<Boolean> deleteTaskById(@RequestParam("id") int id) {
+    public ResponseEntity<HttpStatus> deleteTaskById(@RequestParam("id") int id) {
         System.out.println("--------- DELETE /task?id=" + id);
-        if(service.deleteTaskById(id))
-            return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        service.deleteTaskById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/tasks")
-    public ResponseEntity<?> deleteAllTasks() {
+    public ResponseEntity<HttpStatus> deleteAllTasks() {
         System.out.println("--------- DELETE /tasks");
         service.deleteAllTasks();
         return new ResponseEntity<>(HttpStatus.OK);
