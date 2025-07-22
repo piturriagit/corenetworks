@@ -52,3 +52,10 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
 2. go to https://www.plantuml.com/plantuml/uml/ and test it
 3. get the url and replace it here
 -->
+
+# Testing
+For testing purposes, you can use:
+- API REST http://localhost:8080/
+  - Swagger UI: http://localhost:8080/swagger-ui/index.html
+- Loaded db in memory: http://localhost:8080/h2-console (db, db1)
+  - MySQL testing environment. Copy configuration from your testing environment and set it into your IntelliJ IDEA Configuration, inside Environment variables. [environment_TEST.env](src/main/resources/environment_TEST.env) to update configuration 
