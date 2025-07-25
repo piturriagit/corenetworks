@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin        //allows different address/port to request this api: for angular
 public class MyTaskController {
 
     private MyTaskService service;
