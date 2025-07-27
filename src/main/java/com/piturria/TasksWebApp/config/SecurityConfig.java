@@ -6,16 +6,20 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    //Our custom security filter chain: no csrf, stateless
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-
         return http
                 //Disabling CSRF
                     //when enabled, you need CSRF header in update requests (not in get) even with successful authentication
@@ -37,5 +41,28 @@ public class SecurityConfig {
 
                 //Build your custom filter chain according to previous configuration
                 .build();
+    }
+
+    //Our custom user detail service: no default user/password by spring boot security
+    @Bean
+    public UserDetailsService userDetailsService() {
+
+        //Fake user to test user details service
+        UserDetails fakeAdmin = User
+                //so password not sent in authorization header basicauthplaintext
+                .withDefaultPasswordEncoder()
+                .username("admin")
+                .password("a@123")
+                .roles("ADMIN")
+                .build();
+        UserDetails fakeUser = User
+                .withDefaultPasswordEncoder()
+                .username("user")
+                .password("u@123")
+                .roles("USER")
+                .build();
+
+        //built-in implementation UserDetailService interface: InMemoryUserDetailsManager class
+        return new InMemoryUserDetailsManager(fakeAdmin,fakeUser);
     }
 }
