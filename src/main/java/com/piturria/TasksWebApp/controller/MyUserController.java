@@ -27,7 +27,7 @@ public class MyUserController {
     @PostMapping("/login")
     public String login(@RequestBody MyUser user) {
         System.out.println("--------- POST /login : " + user);
-        return "Fake login success for user: " + user.getUsername();
+        return service.verify(user);
     }
 
     @PostMapping("/register")
