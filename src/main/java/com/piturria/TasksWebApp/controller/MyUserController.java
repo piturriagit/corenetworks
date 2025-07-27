@@ -3,12 +3,10 @@ package com.piturria.TasksWebApp.controller;
 import com.piturria.TasksWebApp.model.MyTask;
 import com.piturria.TasksWebApp.model.MyUser;
 import com.piturria.TasksWebApp.service.MyUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -20,9 +18,15 @@ public class MyUserController {
         this.service = service;
     }
 
+    @GetMapping("/")
+    public String  testing(HttpServletRequest request) {
+        System.out.println("--------- GET / : ");
+        return "Testing security " + request.getSession();
+    }
+
     @PostMapping("/register")
     public ResponseEntity<MyUser> register(@RequestBody MyUser user) {
-        System.out.println("--------- REGISTER : " + user.getUsername());
+        System.out.println("--------- GET /register : " + user.getUsername());
         try {
             return new ResponseEntity<>(service.register(user), HttpStatus.CREATED);
         } catch (Exception e) {
