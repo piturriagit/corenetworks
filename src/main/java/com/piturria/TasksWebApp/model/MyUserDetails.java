@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 //Current user is also called User Principal
 public class MyUserDetails implements UserDetails {

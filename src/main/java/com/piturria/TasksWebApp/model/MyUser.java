@@ -3,8 +3,6 @@ package com.piturria.TasksWebApp.model;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
 @Entity
 @Table(name="users")
