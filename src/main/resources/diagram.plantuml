@@ -68,5 +68,6 @@ MyTaskController ..> MyTaskService
 MyTaskService ..> MyTaskRepository
 MyTaskRepository --|> JpaRepository : extends
 MyTaskRepository ..> MyTask
-MyTask .. tasks : JPA
+MyTask .. tasks
+MyTaskRepository <..> tasks : JPA
 @enduml
