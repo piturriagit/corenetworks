@@ -28,8 +28,8 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
    - [ ] Añadir autenticación básica con JWT (puede ser simulada con un token fijo).
    - [ ] Despliegue local de frontend y backend (no es necesario en servidor real, aunque se valorará si se hace).
 5. Control de versiones:
-   - [ ] Repositorio en GitHub con los distintos commits bien organizados (mínimo 3-4 commits significativos).
-   - [ ] Se valorará el uso de ramas.
+   - [X] Repositorio en GitHub con los distintos commits bien organizados (mínimo 3-4 commits significativos).
+   - [X] Se valorará el uso de ramas.
 
 ## Entregables:
 - [ ] Código fuente completo.
