@@ -21,6 +21,7 @@ public class MyTaskController {
 
     @GetMapping("/tasks")
     public ResponseEntity<List<MyTask>> getAllTasks() {
+        System.out.println("--------- GET /tasks");
         return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
     }
 
