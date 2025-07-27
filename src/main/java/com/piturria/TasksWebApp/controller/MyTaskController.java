@@ -19,47 +19,47 @@ public class MyTaskController {
         this.service = service;
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/v1.0/tasks")
     public ResponseEntity<List<MyTask>> getAllTasks() {
-        System.out.println("--------- GET /tasks");
+        System.out.println("--------- GET /v1.0/tasks");
         return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
     }
 
-    @GetMapping("/task")
-    public ResponseEntity<MyTask> getTaskById(@RequestParam("id") int id) {
-        System.out.println("--------- GET /task?id=" + id);
+    @GetMapping("/v1.0/tasks/{id}")
+    public ResponseEntity<MyTask> getTaskById(@PathVariable int id) {
+        System.out.println("--------- GET /v1.0/tasks/" + id);
         MyTask task=service.getTaskById(id);
         if(task == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @PostMapping("/task")
+    @PostMapping("/v1.0/tasks")
     public ResponseEntity<MyTask> addTask(@RequestBody MyTask task) {
-        System.out.println("--------- POST /task: " + task);
+        System.out.println("--------- POST /v1.0/tasks : " + task);
         MyTask result;
         return new ResponseEntity<>(service.addTask(task),HttpStatus.CREATED);
     }
 
-    @PutMapping("/task")
-    public ResponseEntity<MyTask> updateTask(@RequestParam("id") int id, @RequestBody MyTask task) {
-        System.out.println("--------- PUT /task?id=" + id +" : " + task);
+    @PutMapping("/v1.0/tasks/{id}")
+    public ResponseEntity<MyTask> updateTask(@PathVariable int id, @RequestBody MyTask task) {
+        System.out.println("--------- PUT /v1.0/tasks/" + id +" : " + task);
         MyTask editedTask=service.updateTask(id, task);
         if(editedTask == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(editedTask,HttpStatus.OK);
     }
 
-    @DeleteMapping("/task")
-    public ResponseEntity<HttpStatus> deleteTaskById(@RequestParam("id") int id) {
-        System.out.println("--------- DELETE /task?id=" + id);
+    @DeleteMapping("/v1.0/tasks/{id}")
+    public ResponseEntity<HttpStatus> deleteTaskById(@PathVariable int id) {
+        System.out.println("--------- DELETE /v1.0/tasks/" + id);
         service.deleteTaskById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/tasks")
+    @DeleteMapping("/v1.0/tasks")
     public ResponseEntity<HttpStatus> deleteAllTasks() {
-        System.out.println("--------- DELETE /tasks");
+        System.out.println("--------- DELETE /v1.0/tasks");
         service.deleteAllTasks();
         return new ResponseEntity<>(HttpStatus.OK);
     }
