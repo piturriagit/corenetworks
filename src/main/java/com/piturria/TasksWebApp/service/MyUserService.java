@@ -13,13 +13,17 @@ public class MyUserService {
 
     private MyUsersRepository repository;
     private AuthenticationManager authenticationManager;
+    private JWTService jwtService;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     //Constructor injection
-    public MyUserService(MyUsersRepository repository, AuthenticationManager authenticationManager) {
+    public MyUserService(MyUsersRepository repository,
+                         AuthenticationManager authenticationManager,
+                         JWTService jwtService) {
         this.repository = repository;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     public MyUser register(MyUser user) throws Exception {
@@ -41,7 +45,7 @@ public class MyUserService {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated())
-            return "User verified: " + user;
+            return jwtService.generateToken();
         else
             return "Fail";  //unauthorized!! so never seen this
     }
