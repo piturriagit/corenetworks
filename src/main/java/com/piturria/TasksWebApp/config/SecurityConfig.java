@@ -1,7 +1,11 @@
 package com.piturria.TasksWebApp.config;
 
+import jakarta.annotation.Nonnull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,12 +14,16 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     //Our custom security filter chain: no csrf, stateless
     @Bean
@@ -25,9 +33,13 @@ public class SecurityConfig {
                     //when enabled, you need CSRF header in update requests (not in get) even with successful authentication
                 .csrf(customizer -> customizer.disable())
 
-                //Forcing authentication for all pages
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
-
+                //Specify which requests should go through authentication
+                .authorizeHttpRequests(request -> request
+//                        //Add pages to exclude for authentication
+//                        .requestMatchers("login", "register","h2-console").permitAll()
+//                        //Forcing authentication for remaining pages
+//                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 //Enabling login form: if security is enabled show default springboot login page
                     //login pop-up when disabling
                 //.formLogin(Customizer.withDefaults())
@@ -64,5 +76,17 @@ public class SecurityConfig {
 
         //built-in implementation UserDetailService interface: InMemoryUserDetailsManager class
         return new InMemoryUserDetailsManager(fakeAdmin,fakeUser);
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider () {
+
+        //Authenticaton provider for database: Data Access Object
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        //Skipping password enconder, to see password on our database
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setUserDetailsService(userDetailsService());
+        return provider;
+
     }
 }
