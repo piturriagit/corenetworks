@@ -1,4 +1,5 @@
 # Ignore environment and secret files
+*.env
 application-piturria.properties
 application-prod.properties
 # Ignore temporal and tool folders
