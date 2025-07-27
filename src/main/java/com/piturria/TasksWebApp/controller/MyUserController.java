@@ -24,9 +24,15 @@ public class MyUserController {
         return "Testing security " + request.getSession();
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody MyUser user) {
+        System.out.println("--------- POST /login : " + user);
+        return "Fake login success for user: " + user.getUsername();
+    }
+
     @PostMapping("/register")
     public ResponseEntity<MyUser> register(@RequestBody MyUser user) {
-        System.out.println("--------- GET /register : " + user.getUsername());
+        System.out.println("--------- GET /register : " + user);
         try {
             return new ResponseEntity<>(service.register(user), HttpStatus.CREATED);
         } catch (Exception e) {
