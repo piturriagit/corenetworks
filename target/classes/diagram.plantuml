@@ -3,12 +3,15 @@
 !define foreign_key(x) <color:#aaaaaa><&key></color> x.
 !define column(x) <color:#efefef><&media-record></color> x.
 
+package BackEnd <<Rectangle>> {
+package App <<folder>> {
 
 class TasksWebAppApplication {
   + main(String[]): void
 }
+note top: localhost:8080
 
-package controller <<Rectangle>> {
+package controller <<Folder>> {
   class MyTaskController {
     - service: MyTaskService
     + public MyTaskController(MyTaskService)
@@ -21,7 +24,7 @@ package controller <<Rectangle>> {
   }
 }
 
-package service <<Rectangle>> {
+package service <<Folder>> {
   class MyTaskService {
     - repository: MyTaskRepository
     + public MyTaskRepository(MyTaskRepository)
@@ -34,7 +37,7 @@ package service <<Rectangle>> {
   }
 }
 
-package repository <<Rectangle>> {
+package repository <<Folder>> {
   interface MyTaskRepository
   interface JpaRepository<MyTask, Integer> {
     + findAll() : List<MyTask>
@@ -45,7 +48,7 @@ package repository <<Rectangle>> {
   }
 }
 
-package model <<Rectangle>> {
+package model <<Folder>> {
   class MyTask {
     - id: int
     - title: String
@@ -68,5 +71,70 @@ MyTaskController ..> MyTaskService
 MyTaskService ..> MyTaskRepository
 MyTaskRepository --|> JpaRepository : extends
 MyTaskRepository ..> MyTask
-MyTask .. tasks : JPA
+MyTask .. tasks
+MyTaskRepository <..> tasks : JPA
+}
+}
+
+package FrontEnd <<Rectangle>> {
+package app <<folder>> {
+  class App
+  note top: localhost:4200
+  class Routes
+  package pages <<Rectangle>> {
+    class Home
+    class Error
+  }
+App --> Routes
+Routes ..> Home
+Home ..> Error
+Routes ..> Error
+Error ..> Routes
+  package components <<folder>> {
+    class Header {
+      - appName : input()
+    }
+    class Footer {
+      - author : input
+      - authorContact : input
+      - imageMail : signal
+      - altMail : signal
+      - authorLinkedin : input
+      - imageLinkedin : signal
+      - altLinkedin : signal
+      - today : input
+    }
+    class ImageIcon {
+      - imageSrc : input
+      - imageAlt : input
+      - clickFunction : input
+    }
+    class Feedback {
+      - image : input
+      - title : input
+      - message : input
+      - warning : input
+      - link : input
+    }
+  }
+  package services <<folder>> {
+    class TasksService {
+      - getTasks() : Observable<>
+      - postTask(Task) : Obaservable<>
+      - putTask(Task) : Observable<Task>
+      - deleteTask(number) : Observable
+      - deleteTasks() : Observable<>
+    }
+  }
+  package model <<folder>> {
+    class Task {
+      - id : number
+      - title : string
+      - description : string
+      - creationDate : Date
+    }
+  }
+}
+}
+
 @enduml
