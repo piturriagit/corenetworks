@@ -6,10 +6,10 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
 
 ## Requisitos funcionales mínimos:
 1. Frontend (Angular):
-   - [ ] Interfaz con formulario para crear nuevas tareas (título y descripción).
-   - [ ] Listado de tareas.
-   - [ ] Botón para editar y borrar tareas.
-   - [ ] Validación básica de formularios.
+   - [X] Interfaz con formulario para crear nuevas tareas (título y descripción).
+   - [X] Listado de tareas.
+   - [X] Botón para editar y borrar tareas.
+   - [X] Validación básica de formularios.
 2. Backend (Java + Spring Boot): 
    - [X] API REST que permita:
        - [X] Crear una tarea.
