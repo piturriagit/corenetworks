@@ -7,13 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-//Current user is also called User Principal
+//User Principal will be the user doing log in, so it could be named UserPrincipal too
 public class MyUserDetails implements UserDetails {
 
     private MyUser user;
-
     public MyUserDetails(MyUser user) {
-        this.user=user;
+        this.user = user;
     }
 
     @Override
@@ -23,11 +22,13 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
+
         return user.getPassword();
     }
 
     @Override
     public String getUsername() {
+
         return user.getUsername();
     }
 }

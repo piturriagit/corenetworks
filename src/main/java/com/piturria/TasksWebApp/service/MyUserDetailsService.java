@@ -2,8 +2,7 @@ package com.piturria.TasksWebApp.service;
 
 import com.piturria.TasksWebApp.model.MyUser;
 import com.piturria.TasksWebApp.model.MyUserDetails;
-import com.piturria.TasksWebApp.repository.MyUserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.piturria.TasksWebApp.repository.MyUsersRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,18 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    private MyUserRepository repository;
+    private MyUsersRepository repository;
 
-    //Constructor injection
-    public MyUserDetailsService(MyUserRepository repository) {this.repository = repository;}
+    //@Autowired by default with constructor injection
+    public MyUserDetailsService(MyUsersRepository repository) {
+        this.repository = repository;
+    }
 
+    //Get user from database
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public MyUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MyUser user = repository.findByUsername(username);
-
         if(user == null) {
-            System.err.println("User not found");
-            throw new UsernameNotFoundException("user not found: " + username);
+            System.out.println("User not found: " + username);
+            throw new UsernameNotFoundException("User not found: " + username);
         }
         return new MyUserDetails(user);
     }

@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,68 +24,57 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    //Our custom security filter chain: no csrf, stateless
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                //Disabling CSRF
-                    //when enabled, you need CSRF header in update requests (not in get) even with successful authentication
-                .csrf(customizer -> customizer.disable())
-
-                //Specify which requests should go through authentication
-                .authorizeHttpRequests(request -> request
-//                        //Add pages to exclude for authentication
-//                        .requestMatchers("login", "register","h2-console").permitAll()
-//                        //Forcing authentication for remaining pages
-//                        .anyRequest().authenticated())
-                        .anyRequest().permitAll())
-                //Enabling login form: if security is enabled show default springboot login page
-                    //login pop-up when disabling
-                //.formLogin(Customizer.withDefaults())
-
-                //Disabling loing form for postman
-                .httpBasic(Customizer.withDefaults())
-
-                //Make HTTP stateless (not remember you, new sessionid for every request)
-                    //So when sending credentials from login, redirects to login.
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                //Build your custom filter chain according to previous configuration
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
+        return http.csrf(customizer->customizer.disable())     //disable CSRF token (no default spring login page
+                .authorizeHttpRequests(request->request
+                        .requestMatchers("login", "register", "h2-console").permitAll()
+                        .anyRequest().authenticated())   //enable authentication, so now all are 403 Forbidden without login
+                //.formLogin(Customizer.withDefaults())       //enable spring default login page but now postman receives it too, if disable login will be asked by pop-up
+                .httpBasic(Customizer.withDefaults())       //postman redirects to page when authenticated
+                .sessionManagement(session->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))        //for every resource you need to authorize so now login is redirect every request in browser
                 .build();
+//Lambda expression from functional interface
+//        http.csrf(new Customizer<CsrfConfigurer<HttpSecurity>>() {
+//            @Override
+//            public void customize(CsrfConfigurer<HttpSecurity> customizer) {
+//                customizer.disable();
+//            }
+//        });
     }
 
-    //Our custom user detail service: no default user/password by spring boot security
+    //MANAGING our own user and password, ignoring the default one in configuration
     @Bean
     public UserDetailsService userDetailsService() {
-
-        //Fake user to test user details service
-        UserDetails fakeAdmin = User
-                //so password not sent in authorization header basicauthplaintext
-                .withDefaultPasswordEncoder()
-                .username("admin")
-                .password("a@123")
-                .roles("ADMIN")
-                .build();
-        UserDetails fakeUser = User
-                .withDefaultPasswordEncoder()
+        UserDetails fakeUser1 = User.withDefaultPasswordEncoder()
                 .username("user")
-                .password("u@123")
+                .password("user1")
                 .roles("USER")
                 .build();
-
-        //built-in implementation UserDetailService interface: InMemoryUserDetailsManager class
-        return new InMemoryUserDetailsManager(fakeAdmin,fakeUser);
+        UserDetails fakeUser2 = User.withDefaultPasswordEncoder()
+                .username("admin")      //it should be unique
+                .password("admin1")
+                .roles("ADMIN")
+                .build();
+//        public InMemoryUserDetailsManager(UserDetails... users) {   <- that means several UserDetails with delimited by','
+        return new InMemoryUserDetailsManager(fakeUser1,fakeUser2);
     }
+    //Our own authentication provider to connect to DB
+    //https://www.youtube.com/watch?v=bOX1VYNqKCY&list=PLsyeobzWxl7qbKoSgR5ub6jolI8-ocxCF&index=35
 
     @Bean
-    public AuthenticationProvider authenticationProvider () {
-
-        //Authenticaton provider for database: Data Access Object
+    public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        //Skipping password enconder, to see password on our database
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        provider.setUserDetailsService(userDetailsService());
-        return provider;
 
+        //NOT ENCODED PASSWORD
+        //provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+
+        //ENCODED PASSWORD
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+        provider.setUserDetailsService(userDetailsService);
+        return provider;
     }
+
 }
