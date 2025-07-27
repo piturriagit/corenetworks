@@ -31,7 +31,7 @@ public class SecurityConfig {
             throws Exception {
         return http.csrf(customizer->customizer.disable())
                 .authorizeHttpRequests(request->request
-                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/login", "/register", "swagger-ui/index.html").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->
