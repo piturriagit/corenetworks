@@ -25,7 +25,7 @@ Desarrollar una aplicación web que permita a un usuario gestionar sus tareas pe
       - [X] descripcion (text)
       - [X] fecha_creacion (timestamp)
 4. Seguridad y despliegue:
-   - [ ] Añadir autenticación básica con JWT (puede ser simulada con un token fijo).
+   - [X] Añadir autenticación básica con JWT (puede ser simulada con un token fijo).
    - [ ] Despliegue local de frontend y backend (no es necesario en servidor real, aunque se valorará si se hace).
 5. Control de versiones:
    - [X] Repositorio en GitHub con los distintos commits bien organizados (mínimo 3-4 commits significativos).
