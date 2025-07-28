@@ -2,6 +2,7 @@ package com.piturria.TasksWebApp.controller;
 
 import com.piturria.TasksWebApp.model.Task;
 import com.piturria.TasksWebApp.service.TaskService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,11 @@ public class MyTaskController {
     }
 
     @GetMapping("/api/tasks")
-    public ResponseEntity<List<Task>> getAllTasks() {
+    public ResponseEntity<List<Task>> getAllTasks(HttpServletRequest request) {
         System.out.println("--------- GET /api/tasks");
+        request.getHeaderNames().asIterator().forEachRemaining(
+                name -> System.out.println(name + ": " + request.getHeader(name))
+        );
         return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
     }
 

@@ -32,9 +32,10 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())    //instead of adding @CrossOrigin into controllers
                 .csrf(customizer->customizer.disable()) //disabling CSRF token
-                .authorizeHttpRequests(request->request
-                        .requestMatchers("/auth/login", "/auth/register", "swagger-ui/index.html").permitAll()
-                        .anyRequest().authenticated())      //define rules to authenticate or not
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/auth/**", "swagger-ui/index.html").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // <-- add this line
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())       //using spring boot default login popup
                 .sessionManagement(session->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //stateless so we need token

@@ -20,12 +20,6 @@ public class AuthController {
         this.service = service;
     }
 
-//    @GetMapping("/")
-//    public String  testing(HttpServletRequest request) {
-//        System.out.println("--------- GET / : ");
-//        return "Testing security " + request.getSession();
-//    }
-
     @PostMapping("/auth/register")
     public ResponseEntity<?> register(@RequestBody MyUser user) {
         try {
