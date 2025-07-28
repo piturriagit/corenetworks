@@ -4,8 +4,6 @@ import com.piturria.TasksWebApp.exceptions.DuplicateEntryException;
 import com.piturria.TasksWebApp.model.BearerToken;
 import com.piturria.TasksWebApp.model.MyUser;
 import com.piturria.TasksWebApp.service.AuthService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

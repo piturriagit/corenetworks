@@ -20,11 +20,8 @@ public class MyTaskController {
     }
 
     @GetMapping("/api/tasks")
-    public ResponseEntity<List<Task>> getAllTasks(HttpServletRequest request) {
+    public ResponseEntity<List<Task>> getAllTasks() {
         System.out.println("--------- GET /api/tasks");
-        request.getHeaderNames().asIterator().forEachRemaining(
-                name -> System.out.println(name + ": " + request.getHeader(name))
-        );
         return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
     }
 
