@@ -1,5 +1,6 @@
 package com.piturria.TasksWebApp.service;
 
+import com.piturria.TasksWebApp.model.BearerToken;
 import com.piturria.TasksWebApp.model.MyUser;
 import com.piturria.TasksWebApp.repository.MyUsersRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,13 +41,24 @@ public class MyUserService {
             throw new Exception();
         }
     }
-
-    public String verify(MyUser user) {
+    public boolean verifyCredentials(MyUser user) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated())
-            return jwtService.generateToken(user.getUsername());
-        else
-            return "Fail";  //unauthorized!! so never seen this
+            return true;
+        return false;  //unauthorized!! so never seen this
+    }
+
+    public MyUser findUser(String username) {
+        return repository.findByUsername(username);
+    }
+
+    public BearerToken generateToken(String username) {
+        long seconds = 600;
+        BearerToken token = new BearerToken();
+        token.setUsername(username);
+        token.setJwt(jwtService.generateToken(username, seconds));
+        token.setExpiration(jwtService.extractExpiration(token.getJwt()));
+        return token;
     }
 }

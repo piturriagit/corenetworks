@@ -1,5 +1,6 @@
 package com.piturria.TasksWebApp.service;
 
+import com.piturria.TasksWebApp.model.BearerToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -36,7 +37,7 @@ public class JWTService {
         }
     }
 
-    public String generateToken(String username) {     //https://www.jwt.io
+    public String generateToken(String username, long seconds) {     //https://www.jwt.io
 //        https://www.scottbrady.io/tools/jwt
 //        Header: { "alg": "HS256" }
 //        Decoded Payload: { "sub": "admin", "iat": 1753655329, "exp": 1753655929 }
@@ -50,21 +51,7 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 600_000))     //10 minutes  //3600_000  //1hora
-                .and()
-                .signWith(getKey())
-                .compact();
-
-    }
-
-    public String generateRefreshToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 900_000))     //15 minutes  //604_800_000  //7dias
+                .expiration(new Date(System.currentTimeMillis() + seconds*1000 ))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -103,7 +90,7 @@ public class JWTService {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 }
