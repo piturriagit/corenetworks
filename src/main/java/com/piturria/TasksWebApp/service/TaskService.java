@@ -1,34 +1,34 @@
 package com.piturria.TasksWebApp.service;
 
-import com.piturria.TasksWebApp.model.MyTask;
-import com.piturria.TasksWebApp.repository.MyTaskRepository;
+import com.piturria.TasksWebApp.model.Task;
+import com.piturria.TasksWebApp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MyTaskService {
+public class TaskService {
 
-    private MyTaskRepository repository;
+    private TaskRepository repository;
 
     //Constructor injection
-    public MyTaskService(MyTaskRepository repository) {
+    public TaskService(TaskRepository repository) {
         this.repository = repository;
     }
 
-    public List<MyTask> getAllTasks() {
+    public List<Task> getAllTasks() {
         return repository.findAll();
     }
 
-    public MyTask getTaskById(int id) {
+    public Task getTaskById(int id) {
         return repository.findById(id).orElse(null);
     }
 
-    public MyTask addTask(MyTask task) {
+    public Task addTask(Task task) {
         return repository.save(task);
     }
 
-    public MyTask updateTask(int id, MyTask task) {
+    public Task updateTask(int id, Task task) {
         if(getTaskById(id)==null)
             return null;
         task.setId(id);

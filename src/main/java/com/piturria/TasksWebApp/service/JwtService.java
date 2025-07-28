@@ -1,6 +1,5 @@
 package com.piturria.TasksWebApp.service;
 
-import com.piturria.TasksWebApp.model.BearerToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -18,7 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JWTService {
+public class JwtService {
     //https://www.gigacalculator.com/randomizers/random-alphanumeric-generator.php
     // 60 length so it produces >256bits so JWT can produce token
     // The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used
@@ -26,7 +25,7 @@ public class JWTService {
     //private String fakeKey="3wcP8AeBh5xAzPBowdHJW3cprsV0YmPfhsMWHycKHtCBt2LqiDbYGg0a8Cen";
     private String secretkey = "";
 
-    public JWTService() {
+    public JwtService() {
 
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");

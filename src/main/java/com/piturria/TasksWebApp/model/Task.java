@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Component
 @Entity
 @Table(name="tasks")
-public class MyTask {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,9 @@
 package com.piturria.TasksWebApp.repository;
 
-import com.piturria.TasksWebApp.model.MyTask;
+import com.piturria.TasksWebApp.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MyTaskRepository extends JpaRepository<MyTask, Integer> {
+public interface TaskRepository extends JpaRepository<Task, Integer> {
 }

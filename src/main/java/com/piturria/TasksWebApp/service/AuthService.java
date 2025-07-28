@@ -1,33 +1,36 @@
 package com.piturria.TasksWebApp.service;
 
+import com.piturria.TasksWebApp.exceptions.DuplicateEntryException;
 import com.piturria.TasksWebApp.model.BearerToken;
 import com.piturria.TasksWebApp.model.MyUser;
 import com.piturria.TasksWebApp.repository.MyUsersRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyUserService {
+public class AuthService {
 
     private MyUsersRepository repository;
     private AuthenticationManager authenticationManager;
-    private JWTService jwtService;
+    private JwtService jwtService;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     //Constructor injection
-    public MyUserService(MyUsersRepository repository,
-                         AuthenticationManager authenticationManager,
-                         JWTService jwtService) {
+    public AuthService(MyUsersRepository repository,
+                       AuthenticationManager authenticationManager,
+                       JwtService jwtService) {
         this.repository = repository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
-    public MyUser register(MyUser user) throws Exception {
+    public MyUser register(MyUser user) {
 
         //NOT ENCODED PASSWORD
         //user.setPassword(user.getPassword());
@@ -36,21 +39,17 @@ public class MyUserService {
         user.setPassword(encoder.encode(user.getPassword()));
         try {
             return repository.save(user);
-        } catch (Exception e) {
-            System.out.println("Error during register (" + user.getUsername() + "): " + e.getMessage());
-            throw new Exception();
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateEntryException("User " + user.getUsername() + " is already used", e);
         }
     }
+
     public boolean verifyCredentials(MyUser user) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated())
             return true;
         return false;  //unauthorized!! so never seen this
-    }
-
-    public MyUser findUser(String username) {
-        return repository.findByUsername(username);
     }
 
     public BearerToken generateToken(String username) {
@@ -59,6 +58,11 @@ public class MyUserService {
         token.setUsername(username);
         token.setJwt(jwtService.generateToken(username, seconds));
         token.setExpiration(jwtService.extractExpiration(token.getJwt()));
+        System.out.println("Token generated :" + token);
         return token;
+    }
+
+    public void removeToken(BearerToken token) {
+        System.out.println("Token removed: " + token);
     }
 }

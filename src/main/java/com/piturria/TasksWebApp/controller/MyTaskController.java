@@ -1,7 +1,7 @@
 package com.piturria.TasksWebApp.controller;
 
-import com.piturria.TasksWebApp.model.MyTask;
-import com.piturria.TasksWebApp.service.MyTaskService;
+import com.piturria.TasksWebApp.model.Task;
+import com.piturria.TasksWebApp.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,57 +9,56 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin        //allows different address/port to request this api: for angular
 public class MyTaskController {
 
-    private MyTaskService service;
+    private TaskService service;
 
     //Constructor injection
-    public MyTaskController(MyTaskService service) {
+    public MyTaskController(TaskService service) {
         this.service = service;
     }
 
-    @GetMapping("/v1.0/tasks")
-    public ResponseEntity<List<MyTask>> getAllTasks() {
-        System.out.println("--------- GET /v1.0/tasks");
+    @GetMapping("/api/tasks")
+    public ResponseEntity<List<Task>> getAllTasks() {
+        System.out.println("--------- GET /api/tasks");
         return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
     }
 
-    @GetMapping("/v1.0/tasks/{id}")
-    public ResponseEntity<MyTask> getTaskById(@PathVariable int id) {
-        System.out.println("--------- GET /v1.0/tasks/" + id);
-        MyTask task=service.getTaskById(id);
+    @GetMapping("/api/tasks/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable int id) {
+        System.out.println("--------- GET /api/tasks/" + id);
+        Task task=service.getTaskById(id);
         if(task == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @PostMapping("/v1.0/tasks")
-    public ResponseEntity<MyTask> addTask(@RequestBody MyTask task) {
-        System.out.println("--------- POST /v1.0/tasks : " + task);
-        MyTask result;
+    @PostMapping("/api/tasks")
+    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+        System.out.println("--------- POST /vapi/tasks : " + task);
+        Task result;
         return new ResponseEntity<>(service.addTask(task),HttpStatus.CREATED);
     }
 
-    @PutMapping("/v1.0/tasks/{id}")
-    public ResponseEntity<MyTask> updateTask(@PathVariable int id, @RequestBody MyTask task) {
-        System.out.println("--------- PUT /v1.0/tasks/" + id +" : " + task);
-        MyTask editedTask=service.updateTask(id, task);
+    @PutMapping("/api/tasks/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable int id, @RequestBody Task task) {
+        System.out.println("--------- PUT /api/tasks/" + id +" : " + task);
+        Task editedTask=service.updateTask(id, task);
         if(editedTask == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(editedTask,HttpStatus.OK);
     }
 
-    @DeleteMapping("/v1.0/tasks/{id}")
+    @DeleteMapping("/api/tasks/{id}")
     public ResponseEntity<HttpStatus> deleteTaskById(@PathVariable int id) {
-        System.out.println("--------- DELETE /v1.0/tasks/" + id);
+        System.out.println("--------- DELETE /api/tasks/" + id);
         service.deleteTaskById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/v1.0/tasks")
+    @DeleteMapping("/api/tasks")
     public ResponseEntity<HttpStatus> deleteAllTasks() {
-        System.out.println("--------- DELETE /v1.0/tasks");
+        System.out.println("--------- DELETE /api/tasks");
         service.deleteAllTasks();
         return new ResponseEntity<>(HttpStatus.OK);
     }
