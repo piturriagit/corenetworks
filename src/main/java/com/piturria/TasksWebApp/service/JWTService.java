@@ -23,13 +23,14 @@ public class JWTService {
     // The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used
     // with HMAC-SHA algorithms MUST have a size >= 256 bits
     //private String fakeKey="3wcP8AeBh5xAzPBowdHJW3cprsV0YmPfhsMWHycKHtCBt2LqiDbYGg0a8Cen";
-    private String stringKey ="";
+    private String secretkey = "";
 
     public JWTService() {
+
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey secretKey = keyGen.generateKey();
-            stringKey=Base64.getEncoder().encodeToString(secretKey.getEncoded());
+            SecretKey sk = keyGen.generateKey();
+            secretkey = Base64.getEncoder().encodeToString(sk.getEncoded());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -41,13 +42,29 @@ public class JWTService {
 //        Decoded Payload: { "sub": "admin", "iat": 1753655329, "exp": 1753655929 }
 //        Generate Hash with encoding algorithm
         String fakeJWT="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MzY1NTMyOSwiZXhwIjoxNzUzNjU1OTI5fQ.aRSVTOwK0iVyAaSPp6XlwAuDy68zLY6qnbGTHs1Xm3Q";
+        //validate on jwt.io with base64 flag: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXZpbiIsImlhdCI6MTcyMjE3MjMwNiwiZXhwIjoxNzIyM
 
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
-                .claims().add(claims)
+                .claims()
+                .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000*60*10))      //expires in 10 minutes
+                .expiration(new Date(System.currentTimeMillis() + 600_000))     //10 minutes  //3600_000  //1hora
+                .and()
+                .signWith(getKey())
+                .compact();
+
+    }
+
+    public String generateRefreshToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return Jwts.builder()
+                .claims()
+                .add(claims)
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 900_000))     //15 minutes  //604_800_000  //7dias
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -55,12 +72,12 @@ public class JWTService {
     }
 
     private SecretKey getKey() {
-        byte [] keyBytes = Decoders.BASE64.decode(stringKey);
+        byte[] keyBytes = Decoders.BASE64.decode(secretkey);
         return Keys.hmacShaKeyFor(keyBytes);
-        //validate on jwt.io with base64 flag: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXZpbiIsImlhdCI6MTcyMjE3MjMwNiwiZXhwIjoxNzIyM
     }
 
-    public String extractUsername(String token) {
+    public String extractUserName(String token) {
+        // extract the username from jwt token
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -70,15 +87,16 @@ public class JWTService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().verifyWith(getKey())
+        return Jwts.parser()
+                .verifyWith(getKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String userName = extractUserName(token);
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {
