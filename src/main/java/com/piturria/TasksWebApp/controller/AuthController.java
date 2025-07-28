@@ -48,9 +48,10 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/auth/logout")
+/*    @PostMapping("/auth/logout")
     public ResponseEntity<BearerToken>  login(@RequestBody BearerToken token) {
         service.removeToken(token);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
+ */
 }
