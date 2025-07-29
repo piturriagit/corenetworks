@@ -46,9 +46,7 @@ public class AuthService {
     public boolean verifyCredentials(MyUser user) {
         Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        if (authentication.isAuthenticated())
-            return true;
-        return false;  //unauthorized!! so never seen this
+        return authentication.isAuthenticated();
     }
 
     public BearerToken generateToken(String username) {
