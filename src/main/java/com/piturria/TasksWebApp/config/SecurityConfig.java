@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,7 +33,7 @@ public class SecurityConfig {
             throws Exception {
         return http
                 .cors(Customizer.withDefaults())    //instead of adding @CrossOrigin into controllers
-                .csrf(customizer->customizer.disable()) //disabling CSRF token
+                .csrf(AbstractHttpConfigurer::disable) //disabling CSRF token
                 .headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) //allow H2 console after login
                 .authorizeHttpRequests(request -> request
