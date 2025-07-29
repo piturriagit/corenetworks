@@ -1,9 +1,6 @@
 package com.piturria.TasksWebApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 /*
 CREATE TABLE `securitydb`.`users` (
@@ -26,6 +23,7 @@ SELECT * FROM users;
 @Table(name="users")
 public class MyUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String password;
