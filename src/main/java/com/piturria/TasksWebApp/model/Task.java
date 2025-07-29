@@ -1,6 +1,8 @@
 package com.piturria.TasksWebApp.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ public class Task {
     @Column(nullable = false)
     private String title;
     private String description;
+    @CreationTimestamp(source = SourceType.DB)
+    @Column(nullable = false)
     private LocalDateTime creationDate;
 
     public int getId() {

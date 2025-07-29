@@ -2,12 +2,12 @@ INSERT INTO tasks (title, description, creation_date) VALUES
   ('Task1', 'Description1', NOW())      --today
  ,('Task2', 'Description2', NOW()+1)    --tomorrow
  ,('Task3', 'Description3', NOW()-1)    --yesterday
- ,('TaskEmpty', null, null)             --null values
+ ,('TaskEmpty', null, NOW())             --null values
  ,('TaskLong with very long title',
  'Description3 with very long description as you need to perform all of the expected actions',
  NOW()+3650)    --long values: long strings, in 10 years
  ,('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i',
- 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i', null)
+ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i', NOW())
 
  ;
 
