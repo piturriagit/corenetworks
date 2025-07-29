@@ -33,7 +33,7 @@ public class BearerToken {
 
     @Override
     public String toString() {
-        return "BearerToken{" +
+        return "BearerToken {" +
                 "username='" + username + '\'' +
                 ", expiration=" + expiration +
                 ", jwt='" + jwt + '\'' +

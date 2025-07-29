@@ -57,11 +57,6 @@ public class AuthService {
         token.setUsername(username);
         token.setJwt(jwtService.generateToken(username, seconds));
         token.setExpiration(jwtService.extractExpiration(token.getJwt()));
-        System.out.println("Token generated :" + token);
         return token;
-    }
-
-    public void removeToken(BearerToken token) {
-        System.out.println("Token removed: " + token);
     }
 }
