@@ -24,6 +24,7 @@ INSERT INTO tasks (title, description, creation_date) VALUES
     ,('ana'   , '$2a$12$2iNWo1B7pgrJdIb7x.RT6Oz.6ot9PO7s49OFbkZrevBEJIX6l7pEu') --a@123
     ,('bea'   , '$2a$12$J.4eZljF6XHtsD.ZHmH/p.ftBhV/ZeKJW3.LmnvltLdR4v39P9Ui2') --b@123
     ,('carlos', '$2a$12$eXIEjFm9ixXYMJJmoOWusO1ck8Fao3cERNOdgqd31.Y0i4CXhzEZi') --c@123
+    ,('test'  , '$2a$12$syzYVNnw8RybZLPHras5mupGLnPrqUqep7hKCOoPqsIGZkRsSD4bi') --test
     ;
 
 SHOW TABLES;
