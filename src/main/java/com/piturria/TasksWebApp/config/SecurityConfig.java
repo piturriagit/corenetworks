@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,9 +33,10 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())    //instead of adding @CrossOrigin into controllers
                 .csrf(customizer->customizer.disable()) //disabling CSRF token
+                .headers(headers ->
+                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) //allow H2 console after login
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**", "swagger-ui/index.html").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // <-- add this line
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())       //using spring boot default login popup
                 .sessionManagement(session->
